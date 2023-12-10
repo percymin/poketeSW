@@ -355,11 +355,11 @@ class CenterMap(PlayMap):
                          pretty_name="Pokete-Center", song="Map.mp3")
         self.inner = se.Text(""" ________________
  |______________|
- |     |a |     |
+ |     |c |     |
  |     ¯ ¯¯     |
  |              |
  |______  ______|
- |_____|  |_____|""", ignore=" ")
+ |_____|  |_____|""", ignore=" ") # 포케테 센터 간호사 표시 C로 바꿈 @@
 
         self.interact = CenterInteract("¯", state="float")
         self.dor_back1 = CenterDoor(" ", state="float")
@@ -388,11 +388,11 @@ class ShopMap(PlayMap):
                          pretty_name="Pokete-Shop", song="Map.mp3")
         self.inner = se.Text(""" __________________
  |________________|
- |      |a |      |
+ |      |s |      |
  |      ¯ ¯¯      |
  |                |
  |_______  _______|
- |______|  |______|""", ignore=" ")
+ |______|  |______|""", ignore=" ") # 포케테 샵 상인 표시 S로 바꿈 @@
         self.interact = ShopInteract("¯", state="float")
         self.dor_back1 = CenterDoor(" ", state="float")
         self.dor_back2 = CenterDoor(" ", state="float")
@@ -404,12 +404,10 @@ class ShopMap(PlayMap):
 
 
 class Figure(se.Object, ProtoFigure):
-    """The figure that moves around on the map and represents the player
-    ARGS:
-        _si: session_info dict"""
+
 
     def __init__(self, _si):
-        r_char = _si.get("represent_char", "a")
+        r_char = _si.get("represent_char", "m") # 나 표시 m으로 바꿈@@
         if len(r_char) != 1:
             logging.info(
                 "[Figure] '%s' is no valid 'represent_char', resetting", r_char)
@@ -823,11 +821,11 @@ valid single-space character!")
                 self.map.full_show()
 
 
-# 일반 사용 기능
+# General use functions
 #######################
 
 def autosave():
-    """5분마다 자동으로 저장하는 기능을 수행"""
+    """Autosaves the game every 5 mins"""
     while True:
         time.sleep(SPEED_OF_TIME * 300)
         if settings("autosave").val:
@@ -835,7 +833,7 @@ def autosave():
 
 
 def save():
-    """관련된 모든 데이터를 저장 파일에 저장합니다."""
+    """Saves all relevant data to savefile"""
     _si = {
         "user": figure.name,
         "represent_char": figure.char,
@@ -868,7 +866,7 @@ def save():
 
 
 def read_save():
-    """저장 파일에서 데이터를 읽어옵니다.
+    """Reads from savefile
     RETURNS:
         session_info dict"""
     Path(SAVEPATH).mkdir(parents=True, exist_ok=True)
@@ -917,13 +915,13 @@ def read_save():
 
 
 def reset_terminal():
-    """터미널의 상태를 초기화합니다."""
+    """Resets the terminals state"""
     if sys.platform == "linux":
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+        termios.tcd(fd, termios.TCSADRAIN, old_settings)
 
 
 def exiter():
-    """함수는 게임을 종료하는 기능을 수행합니다."""
+    """Exit function"""
     reset_terminal()
     logging.info("[General] Exiting...")
     print("\033[?1049l\033[1A")
@@ -935,7 +933,7 @@ def exiter():
 ##############################
 
 def codes(string):
-    """치트?"""
+    """Cheats"""
     for i in string:
         if i == "w":
             save()
@@ -957,11 +955,11 @@ def codes(string):
 #################################################
 
 class ExtraActions:
-    """추가 작업을 추적하는 추가 작업 클래스"""
+    """Extra actions class to keep track of extra actions"""
 
     @staticmethod
     def playmap_7():
-        """동굴 애니메이션"""
+        """Cave animation"""
         _map = obmp.ob_maps["playmap_7"]
         for obj in _map.get_obj("inner_walls").obs \
                    + [i.main_ob for i in _map.trainers] \
@@ -976,13 +974,13 @@ class ExtraActions:
                 obj.rechar(" ")
 
 
-# 주 기능
+# main functions
 ################
 
 def teleport(poke):
-    """플레이어를 다른 마을의 포켓센터로 순간이동시킵니다.
+    """Teleports the player to another towns pokecenter
     ARGS:
-        poke: 애니메이션에 등장하는 포케"""
+        poke: The Poke shown in the animation"""
     if (obj := roadmap(mvp.movemap, choose=True)) is None:
         return
     if settings("animations").val:
@@ -996,7 +994,7 @@ def teleport(poke):
 
 
 def swap_poke():
-    """로컬 네트워크에서 플레이어들과 포켓몬을 교환"""
+    """Trading with other players in the local network"""
     if not ask_bool(
         mvp.movemap, "Do you want to trade with another trainer?",
         mvp.movemap
@@ -1072,7 +1070,7 @@ Your partners mods: {', '.join(i + '-' + mod_info[i] for i in mod_info)}""",
 
 
 def _game(_map):
-    """게임기능
+    """Game function
     ARGS:
         _map: The map that will be shown"""
     _ev.clear()
@@ -1102,7 +1100,7 @@ def _game(_map):
     if _map.weather is not None:
         notifier.notify("Weather", "Info", _map.weather.info)
     while True:
-        # 길찾기는 아직 사용되지 않습니다.
+        # Directions are not being used yet
         action = get_action()
         if action.triggers(*ACTION_DIRECTIONS):
             figure.direction = ''
@@ -1148,8 +1146,7 @@ def _game(_map):
 
 
 def intro():
-    """포케테 소개"""
-    """밑에 시작할떄 나오는말 같음"""
+    """Intro to Pokete"""
     mvp.movemap.set(0, 0)
     mvp.movemap.bmap = obmp.ob_maps["intromap"]
     mvp.movemap.full_show()
@@ -1173,23 +1170,23 @@ town.",
 
 
 def parse_obj(_map, name, obj, _dict):
-    """객체를 지도 속성으로 구문 분석하고 추가합니다.
+    """Parses an object to a maps attribute and adds it
     ARGS:
-        _map: 주어진 PlayMap
-        이름: 속성의 이름
-        obj: 개체 설정
-        _dict: 정보가 포함된 사전"""
+        _map: The given PlayMap
+        name: Name of the attribute
+        obj: Object beeing set
+        _dict: Dict containing info"""
     _map.register_obj(name, obj)
     obj.add(_map, _dict["x"], _dict["y"])
 
 
 def gen_obs():
-    """지도의 모든 객체를 생성합니다."""
+    """Generates all objects on the maps"""
     map_data = p_data.map_data
     npcs = p_data.npcs
     trainers = p_data.trainers
 
-    # 지도에 모든 트레이너 추가
+    # adding all trainer to map
     for i, trainer_list in trainers.items():
         _map = obmp.ob_maps[i]
         for j in trainer_list:
@@ -1231,8 +1228,8 @@ def gen_obs():
     # NPCs
     for npc, _npc in npcs.items():
         NPC(npc, _npc["texts"], _fn=_npc["fn"],
-            chat=_npc.get("chat", None)).add(obmp.ob_maps[_npc["map"]],
-                                             _npc["x"], _npc["y"])
+            chat=_npc.get("chat", None), main_ob_shape="n").add(obmp.ob_maps[_npc["map"]],
+                                             _npc["x"], _npc["y"]) # NPC 이름 바꿈 @@
 
 
 def gen_maps():
@@ -1279,8 +1276,7 @@ def main():
 
     ver_change = check_version(session_info)
     # hotkeys
-    hotkeys_from_save(session_info.get("hotkeys", {}),
-                      loading_screen.map, ver_change)
+    hotkeys_from_save(session_info.get("hotkeys", {}), loading_screen.map, ver_change)
     game_map = figure.map
     if figure.name == "DEFAULT":
         intro()
@@ -1536,71 +1532,71 @@ if __name__ == "__main__":
 
     print("\033[?1049h")
 
-    # resizing screen
+    # resizing screen 터미널 크기 확인 코드 !!
     tss()
 
-    # Home global
+    # Home global 현재 사용자의 홈디렉토리를 알아내는 코드 !!
     HOME = Path.home()
 
-    # loading screen
+    # loading screen 로딩화면을 불러오고 표시 !!
     loading_screen = LoadingScreen(VERSION, CODENAME)
     loading_screen()
 
-    # readinf savefile
+    # readinf savefile 세이브 불러오기 !!
     session_info = read_save()
 
     # logging config
     log_file = (SAVEPATH / "pokete.log") if do_logging else None
     logging.basicConfig(filename=log_file,
                         format='[%(asctime)s][%(levelname)s]: %(message)s',
-                        level=logging.DEBUG if do_logging else logging.ERROR)
-    logging.info("=== Startup Pokete %s v%s ===", CODENAME, VERSION)
+                        level=logging.DEBUG if do_logging else logging.ERROR) # 로깅 설정 !!
+    logging.info("=== Startup Pokete %s v%s ===", CODENAME, VERSION) # 시작 메세지 로깅 !!
 
-    # settings
+    # settings 세이브 파일을 로드해서 세팅한다 !!
     settings.from_dict(session_info.get("settings", {}))
     save_trainers = settings("save_trainers").val
 
     if not load_mods:
         settings("load_mods").val = False
 
-    # Loading mods
-    if settings("load_mods").val:
+    # Loading mods 
+    if settings("load_mods").val: # load_mods에 따라 모드를 로드할지 말지 결정 !!
         try:
             import mods
-        except ModError as mod_err:
+        except ModError as mod_err: # 모드가 존재하지 않거나 오류 발생 시 처리 !!
             error_box = InfoBox(str(mod_err), "Mod-loading Error")
             error_box.center_add(loading_screen.map)
             loading_screen.map.show()
             sys.exit(1)
 
-        for mod in mods.mod_obs:
-            mod.mod_p_data(p_data)
-    else:
-        mods = DummyMods()
+        for mod in mods.mod_obs: # 모드가 정상적으로 로드되면 !!
+            mod.mod_p_data(p_data) # 게임 데이터에 모드 데이터를 적용 !!
+    else: # load_mods에 따라 모드를 로드하지 않으면 !!
+        mods = DummyMods() #더미모드를 생성한다 !!
     logging.info("[General] %d mods are loaded: (%s)",
-                 len(mods.mod_obs), ', '.join(mods.mod_names))
+                 len(mods.mod_obs), ', '.join(mods.mod_names)) # 로깅을 통해 모드 개수와 모드 이름을 알아본다 !!
 
     # validating data
-    p_data.validate()
+    p_data.validate() 
 
-    # Definiton of the playmaps
+    # Definiton of the playmaps 맵을 생성함 !!
     # Most of the objects are generated from map_data,
     # but can be extended via map_additions()
     ############################################################
 
-    obmp.ob_maps = gen_maps()
+    obmp.ob_maps = gen_maps() # 초기 맵을 생성 !!
     # Those two maps cant to sourced out, because `height` and `width`
     # are global variables exclusive to pokete.py
-    centermap = CenterMap(tss.height - 1, tss.width)
-    shopmap = ShopMap(tss.height - 1, tss.width)
+    centermap = CenterMap(tss.height - 1, tss.width) # 센터 추가 !!
+    shopmap = ShopMap(tss.height - 1, tss.width) # 가게 추가 !!
     obmp.ob_maps["centermap"] = centermap
     obmp.ob_maps["shopmap"] = shopmap
 
-    # Figure
+    # Figure 플레이어 캐릭터를 생성 !!
     figure = Figure(session_info)
 
-    gen_obs()
-    map_additions()
+    gen_obs() # 게임 객체들을 생성 !!
+    map_additions() # 추가적인 맵 요소를 생성 !!
 
     # Definiton of all additionaly needed obs and maps
     #############################################################
@@ -1610,14 +1606,14 @@ if __name__ == "__main__":
     # A dict that contains all world action functions for Attacks
     abb_funcs = {"teleport": teleport}
 
-    # side fn definitions
+    # side fn definitions 포케테 덱과 도감을 초기화한다 !!
     detail.detail = detail.Detail(tss.height - 1, tss.width)
-    pokete_dex = Dex(figure)
-    help_page = Help(mvp.movemap)
+    pokete_dex = Dex(figure) # 포케테 덱 초기화 !!
+    help_page = Help(mvp.movemap) # help 박스 초기화 !!
     RoadMap.check_maps()
     roadmap = RoadMap(figure)
     deck.deck = deck.Deck(tss.height - 1, tss.width, figure, abb_funcs)
-    about = About(VERSION, CODENAME, mvp.movemap)
+    about = About(VERSION, CODENAME, mvp.movemap) # about 박스 초기화 !!
     inv = Inv(mvp.movemap)
     buy = Buy(figure, mvp.movemap)
     pokete_care = PoketeCare.from_dict(session_info.get("pokete_care", {
@@ -1630,16 +1626,16 @@ if __name__ == "__main__":
     Poketeball.figure = figure
     _ev.set_emit_fn(timer.time.emit_input)
 
-    # Achievements
+    # Achievements 세이브 파일에서 불러온 업적으로 초기화 !!
     achievements.set_achieved(session_info.get("achievements", []))
     for identifier, achievement_args in p_data.achievements.items():
         achievements.add(identifier, **achievement_args)
 
-    # objects relevant for fm.fight()
+    # objects relevant for fm.fight() 전투 맵 초기화 !!
     fm.fightmap = fm.FightMap(tss.height - 1, tss.width)
 
-    for _i in [NPC, Trainer]:
-        _i.set_vars(figure, NPCActions)
+    for _i in [NPC, Trainer]: # NPC 및 트레이너 초기화 !!
+        _i.set_vars(figure, NPCActions) 
     notifier.set_vars(mvp.movemap)
     figure.set_args(session_info)
 
