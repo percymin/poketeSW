@@ -53,7 +53,7 @@ class NPC(se.Box):
             name: The NPCs name"""
         return cls.registry[name]
 
-    def __init__(self, name, texts, _fn=None, chat=None, side_trigger=True):
+    def __init__(self, name, texts, _fn=None, chat=None, side_trigger=True, main_ob_shape="a"): # 매개변수 변경 @@
         super().__init__(0, 0)
         self.name = name
         self.texts = texts
@@ -62,7 +62,7 @@ class NPC(se.Box):
             self.q_a = {}
         else:
             self.q_a = chat
-        self.main_ob = se.Object("a")
+        self.main_ob = se.Object(main_ob_shape) # main ob 바꿈 @@
         if side_trigger:
             for i, j in zip([-1, 1, 0, 0], [0, 0, 1, -1]):
                 self.add_ob(NPCTrigger(self), i, j)
@@ -225,7 +225,7 @@ class Trainer(NPC, Provider):
 
     def __init__(self, pokes, name, gender, texts, lose_texts,
                  win_texts):
-        NPC.__init__(self, name, texts, side_trigger=False)
+        NPC.__init__(self, name, texts, side_trigger=False, main_ob_shape="t") # 트레이너 이름 바꿈 @@
         Provider.__init__(self, pokes, escapable=False, xp_multiplier=2)
         # attributes
         self.gender = gender

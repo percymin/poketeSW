@@ -15,7 +15,7 @@ maps = {
         "pretty_name": "Nice Town",
         "extra_actions": None,
         "poke_args": {
-            "pokes": ["rato", "horny", "vogli", "agumon", "robotv"],
+            "pokes": ["horny", "vogli", "agumon", "robotv"],
             "minlvl": 15,
             "maxlvl": 40
         },
@@ -28,7 +28,7 @@ maps = {
         "pretty_name": "Route 0",
         "extra_actions": None,
         "poke_args": {
-            "pokes": ["bushy", "lil_nut", "radishon", "horny","snowman", "agumon","bubble"],
+            "pokes": ["snowman", "agumon","bubble","horny", "vogli",],
             "minlvl": 30,
             "maxlvl": 60
         },
@@ -54,7 +54,7 @@ maps = {
         "pretty_name": "Route 1",
         "extra_actions": None,
         "poke_args": {
-            "pokes": ["snow_man","bubble", "steini", "voglo", "wolfior", "robotv", "agumon"],
+            "pokes": ["snow_man","bubble", "robotv", "agumon"],
             "minlvl": 60,
             "maxlvl": 128
         },

@@ -217,7 +217,7 @@ can't have more than 4 attacks!"
                           / (enem.defense if enem.defense >= 1 else 1))
                          * random_factor * eff)
             eff_text = {
-                eff < 1: "\nThat was not effective! ",
+                eff < 1: "\nBut that was not effective... ",
                 eff > 1: "\nThat was very effective! ",
                 eff == 1 or n_hp == 0: "",
                 random_factor == 0: f"{self.name} missed!"}[True]
@@ -226,11 +226,11 @@ can't have more than 4 attacks!"
             time.sleep(SPEED_OF_TIME * 0.4)
             for i in attack.move:
                 getattr(self.moves, i)()
+            fightmap.outp.outp(
+                f'{self.ext_name} used {attack.name}! {eff_text}')
             if attack.action is not None and random_factor != 0:
                 getattr(AttackActions, attack.action)(self, enem, providers)
             attack.set_ap(attack.ap - 1)
-            fightmap.outp.outp(
-                f'{self.ext_name} used {attack.name}! {eff_text}')
             if enem == self:
                 time.sleep(SPEED_OF_TIME * 1)
                 fightmap.outp.outp(f'{self.ext_name} hurt itself!')

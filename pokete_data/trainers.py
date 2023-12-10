@@ -17,6 +17,12 @@ trainers = {
             ],
             30, 10
         )
+    },{
+        "pokes": [("hornita", 60)],
+        "args": ("Mr.O", "He",
+                 ["Hello, trainer!", "My name is Mr.O","Are you willing to fight me?"],
+                 ["Hahaha!", "Looooser!"],
+                 ["Congratulations!", "Have a great day!"],  40, 13)
     },
     ],
     "cave_1": [{

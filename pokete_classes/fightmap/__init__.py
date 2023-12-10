@@ -473,6 +473,7 @@ class FightItems:
             if all(poke in obj.caught_pokes for poke in p_data.pokes):
                 achievements.achieve("catch_em_all")
             return 2
+        
         fightmap.outp.outp("You missed!")
         fightmap.show()
         fightmap.pball.remove()
@@ -497,6 +498,7 @@ class FightItems:
 
     def heal_potion(self, obj, _):
         """Healing potion function"""
+        achievements.achieve("first_heal_potion")
         return self.potion(obj, 5, "healing_potion")
 
     def super_potion(self, obj, _):

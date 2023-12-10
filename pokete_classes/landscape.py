@@ -26,7 +26,7 @@ class HighGrass(se.Object):
                  if (n_a := p_data.pokes[i].get("night_active", None)) is None
                  or (not n_a and not is_night)
                  or (n_a and is_night)}
-        if random.randint(0, 8) == 0:
+        if random.randint(0, 16) == 0: # 적 출연 확률 1/2로 줄임@@
             fm.fightmap.fight(
                 [
                     self.figure,
@@ -96,11 +96,11 @@ class Meadow(se.Text):
         ARGS:
             objs: The water objects this will happen for"""
         for obj in objs:
-            if random.randint(0, 9) == 0:
+            if random.randint(0, 18) == 0: # 물에서 적 출연 확률 1/2로 줄임@@
                 if " " not in obj.char:
                     obj.rechar([i for i in
                                 [Color.lightblue + "~" + Color.reset,
-                                Color.blue + "~" + Color.reset]
+                                 Color.blue + "~" + Color.reset]
                                 if i != obj.char][0])
                     cls.check_figure_redraw(obj)
 
