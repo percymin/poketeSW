@@ -3,6 +3,7 @@
 import time
 import scrap_engine as se
 import pokete_classes.game_map as gm
+from .hotkeys import Action, get_action
 from release import SPEED_OF_TIME
 
 
@@ -54,14 +55,17 @@ def fight_intro(height, width):
     fancymap.show()
     for i, _l in zip(list(zip(*[j.obs for j in vec_list])),
                      list(zip(*[list(2 * " ") + k
-                              for k in [j.obs for j in vec_list]])), ):
+                              for k in [j.obs for j in vec_list]])), ):   
         for j in i:
             j.rechar("-")
         for j in _l:
             if j != " ":
                 j.rechar(" ")
         fancymap.show()
-        time.sleep(SPEED_OF_TIME * 0.005)
+        if get_action().triggers(Action.ACCEPT):
+            break
+        else:
+            time.sleep(SPEED_OF_TIME * 0.005)
     for i in vec_list:
         i.remove()
     del fancymap

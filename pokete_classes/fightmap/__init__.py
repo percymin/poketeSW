@@ -474,7 +474,6 @@ class FightItems:
                 achievements.achieve("catch_em_all")
             return 2
         fightmap.outp.outp("You missed!")
-        achievements.achieve("first_miss")
         fightmap.show()
         fightmap.pball.remove()
         enem.curr.ico.add(fightmap, enem.curr.ico.x, enem.curr.ico.y)
@@ -498,7 +497,6 @@ class FightItems:
 
     def heal_potion(self, obj, _):
         """Healing potion function"""
-        achievements.achieve("first_heal_potion")
         return self.potion(obj, 5, "healing_potion")
 
     def super_potion(self, obj, _):
