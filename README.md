@@ -12,7 +12,9 @@
 ![commit activity](https://img.shields.io/github/commit-activity/m/lxgr-linux/pokete)
 ![commits since last release](https://img.shields.io/github/commits-since/lxgr-linux/pokete/latest/master?include_prereleases)
 ![GitHub contributors](https://img.shields.io/github/contributors/lxgr-linux/pokete)
-기존에 존재하던 파이썬언어 오픈소스 게임인 Pokete(터미널에서 도트 형식으로 실행되는 포켓몬과 거의 유사한게임)을 팀원들과 함께 수정하고 보완하는 작업을 거친 프로젝트
+
+기존에 존재하던 파이썬언어 오픈소스 게임인 Pokete(터미널에서 도트 형식으로 실행되는 포켓몬과 거의 유사한게임)을 팀원들과 함께
+수정하고 보완하는 작업을 거친 프로젝트
 # Pokete -- Grey Edition
 
 ![Example](assets/ss/ss01.png)
